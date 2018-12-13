@@ -97,6 +97,10 @@ export default {
   },
   watch:{
     value(val){
+      if (!val) {
+        this.currentOption=Object.assign({},{})
+        return;
+      }
       this.findCurrentOption(this.options,val)
     },
     '$store.state.cascadeTimer'(val){
