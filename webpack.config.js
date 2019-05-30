@@ -1,12 +1,15 @@
 var path = require('path')
 var webpack = require('webpack')
-
+const NODE_ENV = process.env.NODE_ENV;
 module.exports = {
-  entry: './src/main.js',
+  // entry: './src/main.js',
+  entry: NODE_ENV == 'development' ? './src/main.js' : './src/packages/index.js',
   output: {
     path: path.resolve(__dirname, './dist'),
     publicPath: '/dist/',
-    filename: 'build.js'
+    filename: 'WjAssembly.min.js',
+    libraryTarget: 'umd',
+    umdNamedDefine: true
   },
   module: {
     rules: [
@@ -68,13 +71,11 @@ module.exports = {
         }
       },
       {
-        test: /\.otf|ttf|woff2?|eot(\?\S*)?$/,
-        loader: 'file-loader',
-        query: {
-          limit: 10000,
-          name: path.posix.join('static', '[name].[hash:7].[ext]')
-        }
-      },
+        test: /\.(woff|woff2|eot|ttf|otf)$/,
+        use: [
+          'file-loader'
+        ]
+      }
     ]
   },
   resolve: {
